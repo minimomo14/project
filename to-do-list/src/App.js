@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, FormEvent, useRef, useEffect } from 'react';
 import TodoList from './TodoList';
-import uuidv4 from "uuid/v4"
+import {uuidv4} from 'uuidv4'
 
 const LOCAL_STORAGE_KEY = 'todoApp.todos'
 
@@ -24,7 +24,9 @@ function App() {
     setTodos(newTodos);
   }
 
-  function handleAddTodo(e) {
+  function handleAddTodo(e: FormEvent) {
+    e.preventDefault();
+    
     const name = todonNameRef.current.value
     if (name === "") return
     //console.log(name);
@@ -42,11 +44,9 @@ function App() {
   return (
     <>
     <h1>Todo List:</h1>
-
     <TodoList todos = {todos} toggleTodo={toggleTodo} />
-
     <input ref={todonNameRef} type="text" />
-    <button type='submit' onClick={handleAddTodo}>Add Todo</button>
+    <button onClick={handleAddTodo}>Add Todo</button>
     <button onClick={handleClearTodos}>Clear Completed List</button>
     <div>{todos.filter(todo => !todo.complete).length}left to do</div>
     </>
